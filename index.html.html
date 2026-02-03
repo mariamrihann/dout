@@ -18,19 +18,10 @@
         text-align: center;
     }
 
-    h1 {
-        color: #ff4d6d;
-        font-size: 3em;
-        margin-bottom: 15px;
-    }
-
-    .teddy {
-        font-size: 120px;
-        cursor: pointer;
-    }
+    h1 { color: #ff4d6d; font-size: 3em; margin-bottom: 15px; }
+    .teddy { font-size: 120px; cursor: pointer; }
 
     button {
-        margin-top: 25px;
         padding: 15px 30px;
         font-size: 20px;
         border: none;
@@ -39,15 +30,11 @@
         color: white;
         cursor: pointer;
         transition: transform 0.2s;
+        margin-top: 20px;
     }
 
-    button:hover {
-        transform: scale(1.1);
-    }
-
-    .hidden {
-        display: none;
-    }
+    button:hover { transform: scale(1.1); }
+    .hidden { display: none; }
 
     .message {
         font-size: 2.3em;
@@ -56,12 +43,22 @@
         padding: 0 20px;
     }
 
-    /* Video Styling */
+    /* Video styling to match your vertical "Happy Cat" video */
+    .video-container {
+        background: white;
+        padding: 15px;
+        border-radius: 30px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        margin-bottom: 10px;
+        display: inline-block;
+    }
+
     video {
-        width: 300px;
+        width: 260px; /* Adjust width to fit your screen */
+        height: 400px; /* Keeps it vertical like a phone video */
         border-radius: 20px;
-        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-        margin-bottom: 20px;
+        object-fit: cover;
+        display: block;
     }
 
     .heart, .falling {
@@ -70,19 +67,14 @@
         pointer-events: none;
     }
 
-    @keyframes fly {
-        to { transform: translateY(-300px); opacity: 0; }
-    }
-
-    @keyframes fall {
-        to { transform: translateY(110vh); opacity: 0; }
-    }
+    @keyframes fly { to { transform: translateY(-300px); opacity: 0; } }
+    @keyframes fall { to { transform: translateY(110vh); opacity: 0; } }
 </style>
 </head>
 
 <body>
 
-<audio autoplay loop>
+<audio id="bgMusic" loop>
     <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_3b6b61c4d2.mp3" type="audio/mpeg">
 </audio>
 
@@ -97,18 +89,21 @@
 </div>
 
 <div id="page3" class="hidden">
-    <video id="happyCat" loop muted playsinline>
-        <source src="v0f025gc0000cgfc2jrc77u01bg6ctvg.mov" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
+    <div class="video-container">
+        <video id="happyCat" loop playsinline autoplay muted style="width: 260px; height: 400px; border-radius: 20px; object-fit: cover;">
+            <source src="c:\Users\Mariam Ahmed\Downloads\WhatsApp Video 2026-02-03 at 3.55.15 AM.mp4" type="video/mp4">
+            Your browser doesn't support this video.
+        </video>
+    </div>
     <div class="message">Do you love me too?🫣 </div>
-    <button onclick="finalSurprise()">Yes, I do! ❤️</button>
+    <button onclick="finalSurprise()">Yes ya mimi ❤️</button>
 </div>
 
 <script>
 let index = 0;
 const messages = [
-    "Douty, Just wanted you to know you make my days softer. I’m really grateful for you. No matter how my day is, you’re one of my favorite constants 👩🏻‍❤️‍💋‍👨🏻",
+    "Douty, Just wanted you to know you make my days easier👩🏻‍❤️‍💋‍👨🏻",
+    "I’m really grateful for you. No matter how my day is, you’re one of my favorite constants.",
     "Always yours, Douty❤️"
 ];
 
@@ -124,9 +119,10 @@ function shootHeart() {
     setTimeout(() => heart.remove(), 2000);
 }
 
-setInterval(shootHeart, 700);
+setInterval(shootHeart, 800);
 
 function nextPage() {
+    document.getElementById("bgMusic").play();
     document.getElementById("page1").classList.add("hidden");
     document.getElementById("page2").classList.remove("hidden");
     showMessages();
@@ -136,8 +132,7 @@ function showMessages() {
     if (index < messages.length) {
         document.getElementById("messageText").innerHTML = messages[index];
         index++;
-        // Speed up the text transition to 5 seconds so it doesn't feel too slow
-        setTimeout(showMessages, 5000); 
+        setTimeout(showMessages, 4000); 
     } else {
         showVideoPage();
     }
@@ -145,26 +140,27 @@ function showMessages() {
 
 function showVideoPage() {
     document.getElementById("page2").classList.add("hidden");
-    const page3 = document.getElementById("page3");
-    page3.classList.remove("hidden");
-    
-    // Play the video when the page shows
+    document.getElementById("page3").classList.remove("hidden");
     const vid = document.getElementById("happyCat");
-    vid.play();
+    
+      // Attempt to play and unmute
+    vid.play().then(() => {
+        vid.muted = false; // Unmutes so you hear the Happy Cat song!
+    });
+    
 }
 
 function finalSurprise() {
-    alert("Yay! You made my day! 🥰");
+    document.getElementById("page3").innerHTML = "<h1>Yay wana kmannn❤️</h1>";
     startFallingHearts();
 }
 
 function startFallingHearts() {
     setInterval(() => {
         const heart = document.createElement("div");
-        heart.style.position = "absolute";
-        heart.style.top = "-30px";
-        heart.innerHTML = "💗";
+        heart.className = "falling";
         heart.style.left = Math.random() * window.innerWidth + "px";
+        heart.innerHTML = "💗";
         heart.style.fontSize = "22px";
         heart.style.animation = "fall 5s linear forwards";
         document.body.appendChild(heart);
@@ -175,3 +171,5 @@ function startFallingHearts() {
 
 </body>
 </html>
+
+
