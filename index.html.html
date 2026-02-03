@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For Douty ❤️</title>
+
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        background: linear-gradient(#ffd6e8, #fff0f5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        overflow: hidden;
+        font-family: 'Comic Sans MS', cursive;
+        text-align: center;
+    }
+
+    h1 {
+        color: #ff4d6d;
+        font-size: 3em;
+        margin-bottom: 15px;
+    }
+
+    .teddy {
+        font-size: 120px;
+        cursor: pointer;
+    }
+
+    button {
+        margin-top: 25px;
+        padding: 15px 30px;
+        font-size: 20px;
+        border: none;
+        border-radius: 25px;
+        background-color: #ff4d6d;
+        color: white;
+        cursor: pointer;
+        transition: transform 0.2s;
+    }
+
+    button:hover {
+        transform: scale(1.1);
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .message {
+        font-size: 2.3em;
+        color: #ff4d6d;
+        margin-bottom: 20px;
+        padding: 0 20px;
+    }
+
+    /* Video Styling */
+    video {
+        width: 300px;
+        border-radius: 20px;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        margin-bottom: 20px;
+    }
+
+    .heart, .falling {
+        position: absolute;
+        color: #ff4d6d;
+        pointer-events: none;
+    }
+
+    @keyframes fly {
+        to { transform: translateY(-300px); opacity: 0; }
+    }
+
+    @keyframes fall {
+        to { transform: translateY(110vh); opacity: 0; }
+    }
+</style>
+</head>
+
+<body>
+
+<audio autoplay loop>
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_3b6b61c4d2.mp3" type="audio/mpeg">
+</audio>
+
+<div id="page1">
+    <h1>I Love You, Douty ❤️</h1>
+    <div class="teddy" onclick="shootHeart()">🧸</div>
+    <button onclick="nextPage()">Next ➡️</button>
+</div>
+
+<div id="page2" class="hidden">
+    <div class="message" id="messageText"></div>
+</div>
+
+<div id="page3" class="hidden">
+    <video id="happyCat" loop muted playsinline>
+        <source src="v0f025gc0000cgfc2jrc77u01bg6ctvg.mov" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div class="message">Do you love me too?🫣 </div>
+    <button onclick="finalSurprise()">Yes, I do! ❤️</button>
+</div>
+
+<script>
+let index = 0;
+const messages = [
+    "Douty, Just wanted you to know you make my days softer. I’m really grateful for you. No matter how my day is, you’re one of my favorite constants 👩🏻‍❤️‍💋‍👨🏻",
+    "Always yours, Douty❤️"
+];
+
+function shootHeart() {
+    const heart = document.createElement("div");
+    heart.style.position = "absolute";
+    heart.innerHTML = "❤️";
+    heart.style.left = Math.random() * window.innerWidth + "px";
+    heart.style.top = "70%";
+    heart.style.fontSize = "24px";
+    heart.style.animation = "fly 2s linear forwards";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 2000);
+}
+
+setInterval(shootHeart, 700);
+
+function nextPage() {
+    document.getElementById("page1").classList.add("hidden");
+    document.getElementById("page2").classList.remove("hidden");
+    showMessages();
+}
+
+function showMessages() {
+    if (index < messages.length) {
+        document.getElementById("messageText").innerHTML = messages[index];
+        index++;
+        // Speed up the text transition to 5 seconds so it doesn't feel too slow
+        setTimeout(showMessages, 5000); 
+    } else {
+        showVideoPage();
+    }
+}
+
+function showVideoPage() {
+    document.getElementById("page2").classList.add("hidden");
+    const page3 = document.getElementById("page3");
+    page3.classList.remove("hidden");
+    
+    // Play the video when the page shows
+    const vid = document.getElementById("happyCat");
+    vid.play();
+}
+
+function finalSurprise() {
+    alert("Yay! You made my day! 🥰");
+    startFallingHearts();
+}
+
+function startFallingHearts() {
+    setInterval(() => {
+        const heart = document.createElement("div");
+        heart.style.position = "absolute";
+        heart.style.top = "-30px";
+        heart.innerHTML = "💗";
+        heart.style.left = Math.random() * window.innerWidth + "px";
+        heart.style.fontSize = "22px";
+        heart.style.animation = "fall 5s linear forwards";
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 5000);
+    }, 200);
+}
+</script>
+
+</body>
+</html>
