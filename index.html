@@ -43,7 +43,6 @@
         padding: 0 20px;
     }
 
-    /* Video styling to match your vertical "Happy Cat" video */
     .video-container {
         background: white;
         padding: 15px;
@@ -54,8 +53,8 @@
     }
 
     video {
-        width: 260px; /* Adjust width to fit your screen */
-        height: 400px; /* Keeps it vertical like a phone video */
+        width: 260px;
+        height: 400px;
         border-radius: 20px;
         object-fit: cover;
         display: block;
@@ -90,12 +89,12 @@
 
 <div id="page3" class="hidden">
     <div class="video-container">
-    <video id="happyCat" loop playsinline autoplay muted style="width: 260px; height: 400px; border-radius: 20px; object-fit: cover;">
-        <source src="video.mov." type="video/quicktime">
-        <source src="video.mov." type="video/mp4">
-        Your browser doesn't support this video.
-    </video>
-</div>
+        <video id="happyCat" loop playsinline autoplay muted style="width: 260px; height: 400px; border-radius: 20px; object-fit: cover;">
+            <source src="video.mov." type="video/quicktime">
+            <source src="video.mov." type="video/mp4">
+            Your browser doesn't support this video.
+        </video>
+    </div>
     <div class="message">Do you love me too?🫣 </div>
     <button onclick="finalSurprise()">Yes ya mimi ❤️</button>
 </div>
@@ -139,16 +138,14 @@ function showMessages() {
     }
 }
 
+// Your updated function added here!
 function showVideoPage() {
     document.getElementById("page2").classList.add("hidden");
     document.getElementById("page3").classList.remove("hidden");
     const vid = document.getElementById("happyCat");
     
-      // Attempt to play and unmute
-    vid.play().then(() => {
-        vid.muted = false; // Unmutes so you hear the Happy Cat song!
-    });
-    
+    vid.muted = false; // Turns sound on after they clicked 'Next'
+    vid.play();
 }
 
 function finalSurprise() {
@@ -172,7 +169,3 @@ function startFallingHearts() {
 
 </body>
 </html>
-
-
-
-
