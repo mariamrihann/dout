@@ -58,6 +58,7 @@
         border-radius: 20px;
         object-fit: cover;
         display: block;
+        background-color: #000; /* Shows black instead of white while loading */
     }
 
     .heart, .falling {
@@ -89,7 +90,7 @@
 
 <div id="page3" class="hidden">
     <div class="video-container">
-        <video id="happyCat" loop playsinline autoplay muted style="width: 260px; height: 400px; border-radius: 20px; object-fit: cover;">
+        <video id="happyCat" loop playsinline muted preload="auto">
             <source src="video.mov." type="video/quicktime">
             <source src="video.mov." type="video/mp4">
             Your browser doesn't support this video.
@@ -123,6 +124,11 @@ setInterval(shootHeart, 800);
 
 function nextPage() {
     document.getElementById("bgMusic").play();
+    
+    // Pre-load the video when they hit the first 'Next' button
+    const vid = document.getElementById("happyCat");
+    vid.load(); 
+
     document.getElementById("page1").classList.add("hidden");
     document.getElementById("page2").classList.remove("hidden");
     showMessages();
@@ -138,14 +144,24 @@ function showMessages() {
     }
 }
 
-// Your updated function added here!
 function showVideoPage() {
     document.getElementById("page2").classList.add("hidden");
     document.getElementById("page3").classList.remove("hidden");
+    
     const vid = document.getElementById("happyCat");
     
-    vid.muted = false; // Turns sound on after they clicked 'Next'
-    vid.play();
+    // This is the fix: Ensure sound is on AND play starts immediately
+    vid.muted = false; 
+    vid.currentTime = 0; // Starts from the very beginning
+    
+    // Use a small delay to ensure the page has rendered before playing
+    setTimeout(() => {
+        vid.play().catch(error => {
+            console.log("Video play was prevented, trying again.");
+            vid.muted = true; // Fallback to muted if browser blocks sound
+            vid.play();
+        });
+    }, 100);
 }
 
 function finalSurprise() {
